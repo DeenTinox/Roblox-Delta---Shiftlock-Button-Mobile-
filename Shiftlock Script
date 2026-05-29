@@ -1,0 +1,68 @@
+-- Custom Mobile Shiftlock Script (DeenTinox Edition - Attached Below)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+-- Gui Setup
+local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+ScreenGui.Name = "DeenTinoxShiftlockGui"
+ScreenGui.ResetOnSpawn = false
+
+-- Toggle Button
+local ToggleButton = Instance.new("TextButton", ScreenGui)
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Size = UDim2.new(0, 50, 0, 50)
+ToggleButton.Position = UDim2.new(0.85, 0, 0.5, 0)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ToggleButton.BackgroundTransparency = 0.75 -- 25% Opacity
+ToggleButton.Text = "🔒"
+ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+ToggleButton.TextSize = 25
+ToggleButton.Font = Enum.Font.SourceSans 
+Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(0, 10)
+ToggleButton.Draggable = true
+
+-- Credit Label (Perfectly Attached Under the Button)
+local CreditLabel = Instance.new("TextLabel", ToggleButton)
+CreditLabel.Name = "CreditLabel"
+CreditLabel.Size = UDim2.new(0, 100, 0, 20)
+CreditLabel.Position = UDim2.new(-0.5, 0, 1.0, 0) -- Touching the bottom edge
+CreditLabel.BackgroundTransparency = 1
+CreditLabel.Text = "Made By DeenTinox"
+CreditLabel.TextSize = 12
+CreditLabel.Font = Enum.Font.SourceSans
+CreditLabel.TextColor3 = Color3.new(1, 1, 1)
+CreditLabel.TextStrokeTransparency = 1
+
+-- Logic Variables
+local isShiftLockOn = false
+local hue = 0
+
+-- Button Click Connection
+ToggleButton.MouseButton1Click:Connect(function()
+    isShiftLockOn = not isShiftLockOn
+    ToggleButton.Text = isShiftLockOn and "🔓" or "🔒"
+end)
+
+-- Main Loop (Camera and Character Control)
+RunService.RenderStepped:Connect(function()
+    -- Rainbow color cycle effect
+    hue = (hue + 0.005) % 1
+    CreditLabel.TextColor3 = Color3.fromHSV(hue, 1, 1)
+    
+    if isShiftLockOn then
+        UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+        local char = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+            local hrp = char.HumanoidRootPart
+            -- Lock the character CFrame to the camera's horizontal LookVector
+            hrp.CFrame = CFrame.new(hrp.Position, hrp.Position + Vector3.new(Camera.CFrame.LookVector.X, 0, Camera.CFrame.LookVector.Z))
+            -- Apply the original Roblox over-the-shoulder offset
+            Camera.CFrame = Camera.CFrame * CFrame.new(1.7, 0.5, 0)
+        end
+    else
+        UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+    end
+end)
