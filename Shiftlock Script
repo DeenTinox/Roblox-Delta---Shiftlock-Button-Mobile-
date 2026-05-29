@@ -1,3 +1,4 @@
+-- DeenTinox Shiftlock Official
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -5,7 +6,7 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
 local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
-ScreenGui.Name = "DeenTinoxShiftlockGui"
+ScreenGui.Name = "DeenTinoxShiftlock"
 ScreenGui.ResetOnSpawn = false
 
 local ToggleButton = Instance.new("TextButton", ScreenGui)
@@ -16,7 +17,7 @@ ToggleButton.BackgroundTransparency = 0.75
 ToggleButton.Text = "🔒"
 ToggleButton.TextColor3 = Color3.new(1, 1, 1)
 ToggleButton.TextSize = 25
-ToggleButton.Font = Enum.Font.SourceSans 
+ToggleButton.Font = Enum.Font.SourceSans
 Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(0, 10)
 ToggleButton.Draggable = true
 
